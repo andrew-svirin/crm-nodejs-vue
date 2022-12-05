@@ -9,7 +9,7 @@ services:
         - USER_ID=${USER_ID-1000}
         - GROUP_ID=${GROUP_ID-1000}
     volumes:
-      - ../../server:/var/www/crm-nodejs-vue/server
+      - ../server:/var/www/crm-nodejs-vue/server
     ports:
       - "80:9000"
       - "9229:9229"
@@ -25,7 +25,7 @@ services:
         - USER_ID=${USER_ID-1000}
         - GROUP_ID=${GROUP_ID-1000}
     volumes:
-      - ../../client:/var/www/crm-nodejs-vue/client
+      - ../client:/var/www/crm-nodejs-vue/client
     tty: true
     ports:
       - "8080:9000"
