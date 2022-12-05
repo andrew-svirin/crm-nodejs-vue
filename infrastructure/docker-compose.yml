@@ -1,0 +1,46 @@
+version: '3.2'
+
+services:
+  server-crm-nodejs-vue:
+    container_name: server-crm-nodejs-vue
+    build:
+      context: node-server
+      args:
+        - USER_ID=${USER_ID-1000}
+        - GROUP_ID=${GROUP_ID-1000}
+    volumes:
+      - ../../server:/var/www/crm-nodejs-vue/server
+    ports:
+      - "80:9000"
+      - "9229:9229"
+    tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  client-crm-nodejs-vue:
+    container_name: client-crm-nodejs-vue
+    build:
+      context: node-client
+      args:
+        - USER_ID=${USER_ID-1000}
+        - GROUP_ID=${GROUP_ID-1000}
+    volumes:
+      - ../../client:/var/www/crm-nodejs-vue/client
+    tty: true
+    ports:
+      - "8080:9000"
+
+  db-crm-nodejs-vue:
+    container_name: db-crm-nodejs-vue
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - db:/data/db
+
+volumes:
+  db:
