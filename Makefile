@@ -8,6 +8,7 @@ CLIENT_CONTAINER := client-crm-nodejs-vue
 CLIENT_CONTAINER_EXEC := $(DC) exec $(CLIENT_CONTAINER)
 
 BASH := /bin/bash
+YARN := /usr/local/bin/yarn
 
 build:
 	cd $(DOCKER_DIR) && $(DC) build
@@ -28,3 +29,6 @@ bash-server:
 
 bash-client:
 	cd $(DOCKER_DIR) && $(CLIENT_CONTAINER_EXEC) $(BASH)
+
+watch-server:
+	cd $(DOCKER_DIR) && $(SERVER_CONTAINER_EXEC) $(YARN) run watch

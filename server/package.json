@@ -1,9 +1,26 @@
 {
   "name": "server-crm-nodejs-vue",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "PORT=9000 npx ts-node ./bin/www.ts",
+    "watch": "PORT=9000 DEBUG=www npx nodemon --ext ts --ignore node_modules/ --delay 2 --exec 'node --inspect=0.0.0.0:9229 --require ts-node/register bin/www.ts'"
+  },
   "dependencies": {
-    "express": "4.18.2"
+    "express": "4.16.1",
+    "http-errors": "1.6.3",
+    "jade": "1.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.14",
+    "@types/node": "18.11.10",
+    "debug": "4.3.4",
+    "nodemon": "2.0.20",
+    "ts-node": "10.9.1",
+    "typescript": "4.9.3"
+  },
+  "engines": {
+    "node": "16.13.0",
+    "yarn": "1.22.15"
   }
 }
