@@ -32,3 +32,6 @@ bash-client:
 
 watch-server:
 	cd $(DOCKER_DIR) && $(SERVER_CONTAINER_EXEC) $(YARN) run watch
+
+serve-client:
+	cd $(DOCKER_DIR) && $(CLIENT_CONTAINER_EXEC) $(YARN) run serve

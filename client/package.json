@@ -1,8 +1,10 @@
 {
   "name": "client-crm-nodejs-vue",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vite"
+  },
   "dependencies": {
     "@mdi/font": "5.9.55",
     "roboto-fontface": "0.10.0",
