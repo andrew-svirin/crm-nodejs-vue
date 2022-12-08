@@ -4,7 +4,7 @@ const authenticated = require('../middlewares/authenticated.middleware');
 const router = require('express').Router();
 
 // unprotected route
-router.all('/authorize-user', controller.authorizeUser);
+router.all('/authenticate-user', controller.authenticateUser);
 
 // protected route
 router.all('/refresh-token', authenticated, controller.refreshToken);

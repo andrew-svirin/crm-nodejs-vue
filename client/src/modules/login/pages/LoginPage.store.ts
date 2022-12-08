@@ -7,9 +7,7 @@ export default {
 
   actions: {
     authorizeUser: async ({commit}: { commit: Commit }, loginForm: LoginForm) => {
-      console.log(import.meta.env.VITE_API_BASE_URL);
-
-      return ApiClient.post('login/authorize-user', loginForm);
+      return ApiClient.post('login/authenticate-user', loginForm);
     },
   },
 };

@@ -16,6 +16,9 @@ services:
     tty: true
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      crm-nodejs-vue-net:
+        ipv4_address: 172.122.0.4
 
   client-crm-nodejs-vue:
     container_name: client-crm-nodejs-vue
@@ -29,6 +32,9 @@ services:
     tty: true
     ports:
       - "8080:9000"
+    networks:
+      crm-nodejs-vue-net:
+        ipv4_address: 172.122.0.5
 
   db-crm-nodejs-vue:
     container_name: db-crm-nodejs-vue
@@ -39,8 +45,25 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: crm
+      MONGO_INITDB_USERNAME: admin
+      MONGO_INITDB_PASSWORD: password
     volumes:
       - db:/data/db
+      - ./mongo-db/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    networks:
+      crm-nodejs-vue-net:
+        ipv4_address: 172.122.0.6
 
 volumes:
   db:
+
+networks:
+  crm-nodejs-vue-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.122.0.0/24
+    driver_opts:
+      com.docker.network.bridge.name: br_crm

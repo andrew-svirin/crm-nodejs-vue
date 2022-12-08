@@ -3,8 +3,10 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import createError from 'http-errors';
 import jwt from 'jsonwebtoken';
+import assert from 'assert';
+import { createToken } from '../services/CryptService';
 
-exports.authorizeUser = (req: Request, res: Response, next: NextFunction) => {
+exports.authenticateUser = (req: Request, res: Response, next: NextFunction) => {
 
   passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -21,16 +23,20 @@ exports.authorizeUser = (req: Request, res: Response, next: NextFunction) => {
   );
 
   return passport.authenticate('local', {session: false}, (err, user, info) => {
-    if (err || !user) {
+    assert.equal(null, err);
+
+    if (!user) {
       next(createError.BadRequest(info.message));
     }
 
     return req.login(user, {session: false}, async (error) => {
         if (error) return next(error);
 
-        const payload = {user: {id: user.id, email: user.email}};
-        // TODO: Extract settings.
-        const token = jwt.sign(payload, 'TOP_SECRET', {expiresIn: '2h'});
+        const payload = {
+          user: {id: user.id, email: user.email},
+        };
+
+        const token = createToken(payload);
 
         return res.json({token});
       }
