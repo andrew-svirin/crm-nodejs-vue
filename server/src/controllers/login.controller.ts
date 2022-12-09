@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import createError from 'http-errors';
-import jwt from 'jsonwebtoken';
 import assert from 'assert';
-import { createToken } from '../services/CryptService';
+import { createToken } from '../services/crypt.service';
+import { findOneByEmail } from '../repositories/user.repository';
 
 exports.authenticateUser = (req: Request, res: Response, next: NextFunction) => {
 
@@ -14,7 +14,9 @@ exports.authenticateUser = (req: Request, res: Response, next: NextFunction) => 
       },
       async (email, password, done) => {
         try {
-          const user = {id: 123, email, password};
+          const user = await findOneByEmail(email);
+          console.log('user', user)
+          // TODO: validate password or reject
           return done(null, user, {message: 'Logged In Successfully'});
         } catch (error) {
           done(error);

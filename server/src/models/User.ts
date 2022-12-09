@@ -1,8 +1,14 @@
 import { Schema, model } from 'mongoose';
-import type { User } from './User.types';
-import { createHash, createSalt } from '../services/CryptService';
+import { createHash, createSalt } from '../services/crypt.service';
 
-const userSchema = new Schema<User>({
+export interface IUser {
+  name: string;
+  email: string;
+  hash?: string;
+  salt?: string;
+}
+
+const userSchema = new Schema<IUser>({
   name: {type: String, required: true},
   email: {type: String, required: true},
   hash: String,
@@ -17,10 +23,13 @@ userSchema.virtual('password').set(function (password) {
   this.hash = createHash(password, this.salt);
 });
 
-userSchema.methods.validPassword = function (password): boolean {
+userSchema.methods.validPassword = function (password: string): boolean {
   const hash = createHash(password, this.salt);
 
   return this.hash === hash;
 };
 
-model('User', userSchema);
+const user = model('User', userSchema);
+
+export default user;
+

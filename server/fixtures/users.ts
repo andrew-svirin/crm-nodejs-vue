@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { createSaltAndHash } from '../src/services/CryptService';
+import { createSaltAndHash } from '../src/services/crypt.service';
 
 module.exports = [
   {_id: new ObjectId(), username: 'admin', email: 'admin@email.test', ...createSaltAndHash('admin_password')},

@@ -6,7 +6,7 @@ export default {
   namespaced: true,
 
   actions: {
-    authorizeUser: async ({commit}: { commit: Commit }, loginForm: LoginForm) => {
+    authenticateUser: async ({commit}: { commit: Commit }, loginForm: LoginForm) => {
       return ApiClient.post('login/authenticate-user', loginForm);
     },
   },

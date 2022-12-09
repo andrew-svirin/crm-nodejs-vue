@@ -5,8 +5,11 @@ const indexRouter = require('./src/routes/index');
 const notFound = require('./src/middlewares/notFound.middleware');
 const errorHandler = require('./src/middlewares/errorHandler.middleware');
 const dbConnect = require('./src/middlewares/dbConnect.middleware');
+const loadConfig = require('./src/middlewares/loadConfig.middleware');
 
 const app: Express = express();
+
+app.use(loadConfig)
 
 app.use(cors());
 

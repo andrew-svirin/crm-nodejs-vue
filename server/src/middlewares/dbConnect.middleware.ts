@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { connect } from '../services/DbService';
+import { connect } from '../services/db.service';
 
 module.exports = async (req: Request, res: Response, next: NextFunction) => {
   /**

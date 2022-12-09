@@ -29,7 +29,7 @@ const store = useStore();
 
 const loginFormRef: Ref<Form | undefined> = ref(undefined);
 const loginForm: Ref<LoginFormType> = ref({
-  email: 'test@email.com',
+  email: 'test@email.test',
   password: '123456',
 });
 
@@ -41,7 +41,7 @@ const onSubmit = async () => {
     return;
   }
 
-  await store.dispatch('login/LoginPage/authorizeUser', loginForm.value)
+  await store.dispatch('login/LoginPage/authenticateUser', loginForm.value)
     .then(async (authorization: {}) => {
 
         console.log('authorization', authorization);

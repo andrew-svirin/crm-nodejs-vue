@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
-import Fixtures from 'node-mongodb-fixtures'
-import { getDbUri } from '../src/services/DbService';
+import Fixtures from 'node-mongodb-fixtures';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const fixtures = new Fixtures({
   dir: 'fixtures',
 });
 
-fixtures.connect(getDbUri())
+fixtures.connect(String(process.env.DB_URI))
   .then(() => fixtures.unload())
   .then(() => fixtures.load())
   .then(() => fixtures.disconnect())
