@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import { IAuthPayload } from '../models/AuthPayload';
 
 export const createSaltAndHash = (password: string): { salt: string, hash: string } => {
   const salt = createSalt();
@@ -19,10 +20,10 @@ export const createSalt = (): string => {
   return crypto.randomBytes(16).toString('hex');
 };
 
-export const createToken = (payload: {}): string => {
+export const createToken = (payload: IAuthPayload, tokenSecret: string): string => {
   return jwt.sign(
     payload,
-    String(process.env.TOKEN_SECRET),
+    tokenSecret,
     {expiresIn: '2h'}
   );
 };

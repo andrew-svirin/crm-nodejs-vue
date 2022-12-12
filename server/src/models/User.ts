@@ -6,6 +6,7 @@ export interface IUser {
   email: string;
   hash?: string;
   salt?: string;
+  validPassword: (password: string) => boolean;
 }
 
 const userSchema = new Schema<IUser>({
@@ -32,4 +33,3 @@ userSchema.methods.validPassword = function (password: string): boolean {
 const user = model('User', userSchema);
 
 export default user;
-

@@ -3,10 +3,8 @@ const authenticated = require('../middlewares/authenticated.middleware');
 
 const router = require('express').Router();
 
-// unprotected route
-router.all('/authenticate-user', controller.authenticateUser);
+router.post('/authenticate-user', controller.authenticateUser);
 
-// protected route
-router.all('/refresh-token', authenticated, controller.refreshToken);
+router.post('/refresh-token', authenticated, controller.refreshToken);
 
-module.exports = router;
+export { router as loginRoutes };

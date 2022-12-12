@@ -1,20 +1,42 @@
 import axios from 'axios';
+import type { RequestOptions } from '@/services/ApiClient.types';
 
 export default class ApiClient {
   static readonly baseUrl: string = import.meta.env.VITE_API_BASE_URL;
 
-  static client () {
-    return axios.create({
+  static client (options?: RequestOptions) {
+
+    const resolveAuthorization = (): string | undefined => {
+      if (true === options?.authorized) {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          throw Error('Missing token');
+        }
+
+        return `bearer ${token}`;
+      }
+
+      return undefined;
+    };
+
+    const config = {
       baseURL: this.baseUrl,
-      headers: {'Content-Type': 'application/json', common: {}}
-    });
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': resolveAuthorization(),
+        common: {},
+      }
+    };
+
+    return axios.create(config);
   }
 
-  static get (path: string): Promise<Response> {
-    return this.client().get(path);
+  static get (path: string, options?: RequestOptions): Promise<Response> {
+    return this.client(options).get(path);
   }
 
-  static post (path: string, data: {}): Promise<Response> {
-    return this.client().post(path, data);
+  static post (path: string, data: {}, options?: RequestOptions): Promise<Response> {
+    return this.client(options).post(path, data);
   }
 }

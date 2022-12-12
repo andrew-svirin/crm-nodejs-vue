@@ -1,49 +1,47 @@
 import { NextFunction, Request, Response } from 'express';
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
 import createError from 'http-errors';
 import assert from 'assert';
 import { createToken } from '../services/crypt.service';
+import { authenticateLocal } from '../services/auth.service';
 import { findOneByEmail } from '../repositories/user.repository';
+import { IAuthPayload } from '../models/AuthPayload';
 
 exports.authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+  return authenticateLocal(
+    async (email, password, done) => {
+      try {
+        const user = await findOneByEmail(email);
 
-  passport.use(new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password'
-      },
-      async (email, password, done) => {
-        try {
-          const user = await findOneByEmail(email);
-          console.log('user', user)
-          // TODO: validate password or reject
-          return done(null, user, {message: 'Logged In Successfully'});
-        } catch (error) {
-          done(error);
+        if (!user || !user.validPassword(password)) {
+          return done(null, false, {message: 'Email and Password are Incorrect'});
         }
-      })
-  );
 
-  return passport.authenticate('local', {session: false}, (err, user, info) => {
-    assert.equal(null, err);
-
-    if (!user) {
-      next(createError.BadRequest(info.message));
-    }
-
-    return req.login(user, {session: false}, async (error) => {
-        if (error) return next(error);
-
-        const payload = {
-          user: {id: user.id, email: user.email},
-        };
-
-        const token = createToken(payload);
-
-        return res.json({token});
+        return done(null, user, {message: 'Logged In Successfully'});
+      } catch (error) {
+        done(error);
       }
-    );
-  })(req, res);
+    },
+    (err, user, info, secret) => {
+      assert.equal(null, err);
+
+      if (!user) {
+        return next(createError.BadRequest(info.message));
+      }
+
+      return req.login(user, {session: false}, async (error) => {
+          if (error) return next(error);
+
+          const payload: IAuthPayload = {
+            user: {email: user.email},
+          };
+
+          const token = createToken(payload, String(secret));
+
+          return res.json({token});
+        }
+      );
+    }
+  )(req, res);
 };
 
 exports.refreshToken = (req: Request, res: Response) => {

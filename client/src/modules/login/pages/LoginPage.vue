@@ -24,28 +24,33 @@ import { useStore } from 'vuex';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import type { Form } from '@/components/Form/Form.types';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
+const router = useRouter();
 
 const loginFormRef: Ref<Form | undefined> = ref(undefined);
 const loginForm: Ref<LoginFormType> = ref({
   email: 'test@email.test',
-  password: '123456',
+  password: 'test_password',
 });
 
 const onSubmit = async () => {
   const {valid = false} = await loginFormRef.value?.validate() || {};
 
   if (!valid) {
-    console.log('Login validation error');
+    console.warn('Login validation error');
     return;
   }
 
   await store.dispatch('login/LoginPage/authenticateUser', loginForm.value)
-    .then(async (authorization: {}) => {
+    .then(async (response) => {
+        localStorage.setItem('token', response.data.token);
 
-        console.log('authorization', authorization);
+        await router.push('/profile');
       }
-    );
+    ).catch((err) => {
+      console.warn(err.response?.data.message);
+    });
 };
 </script>
