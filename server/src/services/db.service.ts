@@ -7,3 +7,13 @@ export const connect = async () => {
 
   await mongoose.connect(dbUri()).catch(err => console.log(err));
 };
+
+export const resolveTablePage = (page: any) => {
+  let tablePage = Number(page) - 1;
+
+  if (tablePage < 0) {
+    tablePage = 0;
+  }
+
+  return tablePage;
+};

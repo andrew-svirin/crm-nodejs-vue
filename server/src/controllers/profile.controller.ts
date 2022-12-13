@@ -1,5 +1,8 @@
-import { Request, Response } from 'express';
+import { Response, UserRequest } from 'express';
+import { findOneByUser } from '../repositories/profile.repository';
 
-exports.getProfile = (req: Request, res: Response) => {
-  res.send('NOT IMPLEMENTED: getProfile');
+export const getProfile = async (req: UserRequest, res: Response) => {
+  const profile = await findOneByUser(req.user._id);
+
+  res.json(profile);
 };

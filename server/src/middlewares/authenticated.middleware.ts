@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
-import { findOneByEmail } from '../repositories/user.repository';
+import { findOneById } from '../repositories/user.repository';
 import { IAuthPayload } from '../models/AuthPayload';
 import assert from 'assert';
 import { authenticateJwt } from '../services/auth.service';
+import { VerifiedCallback } from 'passport-jwt';
 
 module.exports = async (req: Request, res: Response, next: NextFunction) => {
   /**
@@ -11,8 +12,8 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
    */
 
   return authenticateJwt(
-    async (jwt_payload: IAuthPayload, done) => {
-      const user = await findOneByEmail(jwt_payload.user.email);
+    async (jwt_payload: IAuthPayload, done: VerifiedCallback) => {
+      const user = await findOneById(jwt_payload.user.id);
 
       if (!user) {
         return done(null, false, {message: 'User not found'});
@@ -27,7 +28,7 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
         return next(createError.BadRequest(info.message));
       }
 
-      return req.login(user, {session: false}, async (error) => {
+      return req.login(user, {session: false}, async (error: any) => {
           if (error) return next(error);
 
           /**

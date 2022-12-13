@@ -8,11 +8,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Modules for router.
 import login from '@/modules/login/router';
 import profile from '@/modules/profile/router';
+import user from '@/modules/user/router';
 
 const routes = [
   {path: '/', redirect: '/login'},
   ...login,
   ...profile,
+  ...user,
 ];
 
 const router = createRouter({

@@ -1,5 +1,5 @@
 import type { Commit } from 'vuex';
-import type { LoginForm } from '@/modules/login/components/LoginForm.types';
+import type LoginForm  from '@/modules/login/components/LoginForm.d';
 import ApiClient from '@/services/ApiClient';
 
 export default {

@@ -1,4 +1,4 @@
-import ProfilePage from '@/modules/profile/pages/ProfilePage';
+import ProfilePage from '@/modules/profile/pages/ProfilePage.vue';
 
 export default [
   {

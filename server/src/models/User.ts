@@ -1,16 +1,17 @@
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { createHash, createSalt } from '../services/crypt.service';
 
 export interface IUser {
-  name: string;
+  _id: string;
+  username: string;
   email: string;
   hash?: string;
   salt?: string;
-  validPassword: (password: string) => boolean;
+  validPassword?: (password: string) => boolean;
 }
 
 const userSchema = new Schema<IUser>({
-  name: {type: String, required: true},
+  username: {type: String, required: true},
   email: {type: String, required: true},
   hash: String,
   salt: String

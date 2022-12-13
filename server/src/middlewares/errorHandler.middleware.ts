@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 module.exports = (err: any, req: Request, res: Response, next: NextFunction) => {
   /**

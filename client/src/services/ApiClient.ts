@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { RequestOptions } from '@/services/ApiClient.types';
+import type { RequestOptions, Response } from '@/services/ApiClient.d';
 
 export default class ApiClient {
   static readonly baseUrl: string = import.meta.env.VITE_API_BASE_URL;

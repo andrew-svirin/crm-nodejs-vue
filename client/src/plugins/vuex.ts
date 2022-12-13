@@ -8,6 +8,7 @@ import { createStore } from 'vuex';
 // Modules
 import login from '@/modules/login/store';
 import profile from '@/modules/profile/store';
+import user from '@/modules/user/store';
 
 // https://vuex.vuejs.org/guide/#the-simplest-store
 export default createStore({
@@ -15,5 +16,6 @@ export default createStore({
   modules: {
     login,
     profile,
+    user,
   }
 });

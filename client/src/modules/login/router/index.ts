@@ -1,4 +1,4 @@
-import LoginPage from '@/modules/login/pages/LoginPage';
+import LoginPage from '@/modules/login/pages/LoginPage.vue';
 
 export default [
   {

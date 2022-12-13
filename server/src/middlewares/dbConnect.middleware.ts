@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { connect } from '../services/db.service';
 
 module.exports = async (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 
 module.exports = (req: Request, res: Response, next: NextFunction) => {

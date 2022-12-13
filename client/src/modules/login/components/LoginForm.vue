@@ -23,8 +23,8 @@
 import type { PropType, Ref } from 'vue';
 import { ref } from 'vue';
 import type { VForm } from 'vuetify/components';
-import type { LoginForm } from '@/modules/login/components/LoginForm.types';
-import type { Form } from '@/components/Form/Form.types';
+import type LoginForm from '@/modules/login/components/LoginForm.d';
+import type { Form } from '@/components/Form/Form';
 
 defineProps({
   form: {type: Object as PropType<LoginForm>, required: true},

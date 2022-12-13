@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 // import all the routes here
 import { loginRoutes } from './login.routes';
 import { profileRoutes } from './profile.routes';
+import { userRoutes } from './user.routes';
 
 const router = require('express').Router();
 
@@ -13,5 +14,6 @@ router.get('/', function (req: Request, res: Response) {
 
 router.use('/login', loginRoutes);
 router.use('/profile', profileRoutes);
+router.use('/user', userRoutes);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-export interface LoginForm {
+export default interface LoginForm {
   email?: string,
   password?: string,
 }

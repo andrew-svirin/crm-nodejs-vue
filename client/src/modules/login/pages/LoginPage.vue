@@ -19,11 +19,11 @@
 </template>
 <script setup lang="ts">
 import LoginForm from '@/modules/login/components/LoginForm.vue';
-import type { LoginForm as LoginFormType } from '@/modules/login/components/LoginForm.types';
+import type LoginFormType from '@/modules/login/components/LoginForm.d';
 import { useStore } from 'vuex';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
-import type { Form } from '@/components/Form/Form.types';
+import type { Form } from '@/components/Form/Form';
 import { useRouter } from 'vue-router';
 
 const store = useStore();
