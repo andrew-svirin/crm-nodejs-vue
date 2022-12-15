@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+import { Config } from '../src/services/config.service';
+import { Db } from '../src/services/db.service';
+
 /**
  * Module dependencies.
  */
@@ -10,20 +13,17 @@ const debug = require('debug')('www');
 /**
  * Get port from environment and store in Express.
  */
-
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -31,7 +31,6 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort (val: any) {
   const port = parseInt(val, 10);
 
@@ -51,7 +50,6 @@ function normalizePort (val: any) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError (error: any) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -79,11 +77,27 @@ function onError (error: any) {
 /**
  * Event listener for HTTP server "listening" event.
  */
+async function onListening () {
+  Config.load();
+  debug('Loaded config');
 
-function onListening () {
+  await Db.connect();
+  debug('Connect to DB ' + Db.dbUri());
+
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Event listening on server termination.
+ */
+process.on('SIGINT', async () => {
+  await server.close();
+
+  await Db.disconnect();
+
+  process.exit(0);
+});

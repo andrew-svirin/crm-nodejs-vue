@@ -46,6 +46,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: crm
+      MONGO_INITDB_DATABASE_TEST: crm-test
       MONGO_INITDB_USERNAME: admin
       MONGO_INITDB_PASSWORD: password
     volumes:

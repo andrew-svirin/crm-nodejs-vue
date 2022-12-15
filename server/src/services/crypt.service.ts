@@ -10,20 +10,14 @@ export const createSaltAndHash = (password: string): { salt: string, hash: strin
   return {salt, hash};
 };
 
-export const createHash = (password: string, salt: string): string => {
-  return crypto
-    .pbkdf2Sync(password, salt, 10000, 512, 'sha512')
-    .toString('hex');
-};
+export const createHash = (password: string, salt: string): string => crypto
+  .pbkdf2Sync(password, salt, 10000, 512, 'sha512')
+  .toString('hex');
 
-export const createSalt = (): string => {
-  return crypto.randomBytes(16).toString('hex');
-};
+export const createSalt = (): string => crypto.randomBytes(16).toString('hex');
 
-export const createToken = (payload: IAuthPayload, tokenSecret: string): string => {
-  return jwt.sign(
-    payload,
-    tokenSecret,
-    {expiresIn: '2h'}
-  );
-};
+export const createToken = (payload: IAuthPayload, tokenSecret: string): string => jwt.sign(
+  payload,
+  tokenSecret,
+  {expiresIn: '2h'}
+);

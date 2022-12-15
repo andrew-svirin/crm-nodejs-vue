@@ -1,12 +1,18 @@
 import mongoose from 'mongoose';
 
-const dbUri = (): string => String(process.env.DB_URI);
+export namespace Db {
+  export const dbUri = (): string => String(process.env.DB_URI);
 
-export const connect = async () => {
-  mongoose.set('strictQuery', false);
+  export const connect = async () => {
+    mongoose.set('strictQuery', false);
 
-  await mongoose.connect(dbUri()).catch(err => console.log(err));
-};
+    await mongoose.connect(dbUri()).catch(err => console.log(err));
+  };
+
+  export const disconnect = async () => {
+    await mongoose.connection.close();
+  };
+}
 
 export const resolveTablePage = (page: any) => {
   let tablePage = Number(page) - 1;

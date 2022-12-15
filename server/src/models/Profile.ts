@@ -1,7 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import User from './User';
 
-export interface IProfile {
+export interface IProfile extends Document {
   user: typeof User;
   firstName: string;
   lastName: string;

@@ -4,7 +4,6 @@ import { findOneById } from '../repositories/user.repository';
 import { IAuthPayload } from '../models/AuthPayload';
 import assert from 'assert';
 import { authenticateJwt } from '../services/auth.service';
-import { VerifiedCallback } from 'passport-jwt';
 
 module.exports = async (req: Request, res: Response, next: NextFunction) => {
   /**
@@ -12,7 +11,7 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
    */
 
   return authenticateJwt(
-    async (jwt_payload: IAuthPayload, done: VerifiedCallback) => {
+    async (jwt_payload: IAuthPayload, done) => {
       const user = await findOneById(jwt_payload.user.id);
 
       if (!user) {

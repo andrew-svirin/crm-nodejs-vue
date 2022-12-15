@@ -44,3 +44,6 @@ serve-client:
 
 load-fixtures:
 	cd $(DOCKER_DIR) && $(SERVER_CONTAINER_EXEC) $(YARN) run load-fixtures
+
+test:
+	cd $(DOCKER_DIR) && $(SERVER_CONTAINER_EXEC) $(YARN) run test

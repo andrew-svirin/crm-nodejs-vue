@@ -1,8 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import { createHash, createSalt } from '../services/crypt.service';
 
-export interface IUser {
-  _id: string;
+export interface IUser extends Document {
   username: string;
   email: string;
   hash?: string;
