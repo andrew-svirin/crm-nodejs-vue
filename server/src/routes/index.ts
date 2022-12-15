@@ -1,19 +1,17 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
+import loginRoutes from './login.routes';
+import profileRoutes from './profile.routes';
+import userRoutes from './user.routes';
 
-// import all the routes here
-import { loginRoutes } from './login.routes';
-import { profileRoutes } from './profile.routes';
-import { userRoutes } from './user.routes';
-
-const router = require('express').Router();
+const indexRouter = Router();
 
 /* GET home page. */
-router.get('/', function (req: Request, res: Response) {
+indexRouter.get('/', function (req: Request, res: Response) {
   res.json({title: 'CRM API'});
 });
 
-router.use('/login', loginRoutes);
-router.use('/profile', profileRoutes);
-router.use('/user', userRoutes);
+indexRouter.use('/login', loginRoutes);
+indexRouter.use('/profile', profileRoutes);
+indexRouter.use('/user', userRoutes);
 
-module.exports = router;
+export default indexRouter;

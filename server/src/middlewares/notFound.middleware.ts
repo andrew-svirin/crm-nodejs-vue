@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 
-module.exports = (req: Request, res: Response, next: NextFunction) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   /**
    * This middleware signals that route does not
    * response any data.
@@ -9,4 +9,4 @@ module.exports = (req: Request, res: Response, next: NextFunction) => {
    * sequence.
    */
   next(createError.NotFound());
-};
+}

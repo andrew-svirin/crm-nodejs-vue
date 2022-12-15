@@ -3,8 +3,8 @@ import supertest from 'supertest';
 import { expect } from 'chai';
 import { ServerUtil } from '../utils/server.util';
 import { UserUtil } from '../utils/user.util';
+import app from '../../src/app';
 
-const app = require('../../src/app');
 const server = supertest(app);
 
 describe('Login routes', () => {

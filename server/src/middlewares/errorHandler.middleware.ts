@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-module.exports = (err: any, req: Request, res: Response, next: NextFunction) => {
+export default (err: any, req: Request, res: Response, next: NextFunction) => {
   /**
    * The last middleware that handle errors.
    */

@@ -1,10 +1,11 @@
-const controller = require('../controllers/login.controller');
-const authenticated = require('../middlewares/authenticated.middleware');
+import authenticated from '../middlewares/authenticated.middleware';
+import * as controller from '../controllers/login.controller';
+import { Router } from 'express';
 
-const router = require('express').Router();
+const loginRoutes = Router();
 
-router.post('/authenticate-user', controller.authenticateUser);
+loginRoutes.post('/authenticate-user', controller.authenticateUser);
 
-router.post('/refresh-token', authenticated, controller.refreshToken);
+loginRoutes.post('/refresh-token', authenticated, controller.refreshToken);
 
-export { router as loginRoutes };
+export default loginRoutes;

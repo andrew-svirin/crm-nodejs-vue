@@ -1,9 +1,8 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-
-const indexRouter = require('./routes/index');
-const notFound = require('./middlewares/notFound.middleware');
-const errorHandler = require('./middlewares/errorHandler.middleware');
+import notFound from './middlewares/notFound.middleware';
+import errorHandler from './middlewares/errorHandler.middleware';
+import indexRouter from './routes';
 
 const app: Express = express();
 
@@ -18,4 +17,4 @@ app.use(notFound);
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

@@ -1,8 +1,9 @@
-const controller = require('../controllers/user.controller');
-const authenticated = require('../middlewares/authenticated.middleware');
+import authenticated from '../middlewares/authenticated.middleware';
+import * as controller from '../controllers/user.controller';
+import { Router } from 'express';
 
-const router = require('express').Router();
+const userRoutes = Router();
 
-router.get('/get-users', authenticated, controller.getUsers);
+userRoutes.get('/get-users', authenticated, controller.getUsers);
 
-export { router as userRoutes };
+export default userRoutes;

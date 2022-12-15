@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
-import { Config } from '../src/services/config.service';
-import { Db } from '../src/services/db.service';
-
 /**
  * Module dependencies.
  */
-const app = require('../src/app');
-const http = require('http');
-const debug = require('debug')('www');
+import { Config } from '../src/services/config.service';
+import { Db } from '../src/services/db.service';
+import app from '../src/app';
+import http from 'http';
+import debug from 'debug';
+
+const debugWww = debug('www');
 
 /**
  * Get port from environment and store in Express.
@@ -79,16 +80,16 @@ function onError (error: any) {
  */
 async function onListening () {
   Config.load();
-  debug('Loaded config');
+  debugWww('Loaded config');
 
   await Db.connect();
-  debug('Connect to DB ' + Db.dbUri());
+  debugWww('Connect to DB ' + Db.dbUri());
 
   const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    : 'port ' + addr?.port;
+  debugWww('Listening on ' + bind);
 }
 
 /**
