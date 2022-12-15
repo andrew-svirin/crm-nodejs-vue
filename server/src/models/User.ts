@@ -6,7 +6,7 @@ export interface IUser extends Document {
   email: string;
   hash?: string;
   salt?: string;
-  validPassword?: (password: string) => boolean;
+  validPassword: (password: string) => boolean;
 }
 
 const userSchema = new Schema<IUser>({

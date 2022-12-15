@@ -12,7 +12,7 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
       try {
         const user = await findOneByEmail(email);
 
-        if (!user || !user.validPassword?.(password)) {
+        if (!user || !user.validPassword(password)) {
           return done(null, false, {message: 'Email and Password are Incorrect'});
         }
 
