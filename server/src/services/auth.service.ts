@@ -4,7 +4,7 @@ import { ExtractJwt, Strategy as JwtStrategy, VerifyCallback } from 'passport-jw
 
 const tokenSecret = (): string => String(process.env.TOKEN_SECRET);
 
-export const authenticateJwt = (verify: VerifyCallback, callback: (...args: any[]) => any): any =>
+export const authenticateJwt = (verify: VerifyCallback, callback: (...args: any[]) => any): Function =>
   passport.authenticate(
     new JwtStrategy({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -14,7 +14,7 @@ export const authenticateJwt = (verify: VerifyCallback, callback: (...args: any[
     callback
   );
 
-export const authenticateLocal = (verify: VerifyFunction, callback: (...args: any[]) => any): any =>
+export const authenticateLocal = (verify: VerifyFunction, callback: (...args: any[]) => any): Function =>
   passport.authenticate(
     new LocalStrategy({
       usernameField: 'email',

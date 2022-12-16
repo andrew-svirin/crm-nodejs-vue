@@ -19,8 +19,7 @@ export namespace UserUtil {
     return user;
   };
 
-  export const deleteAll = async (filter: {} = {}) => {
+  export const deleteAll = async (filter: {} = {}): Promise<void> => {
     User.deleteMany(filter);
   };
-
 }

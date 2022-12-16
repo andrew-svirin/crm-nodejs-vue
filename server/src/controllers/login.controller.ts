@@ -6,8 +6,8 @@ import { authenticateLocal } from '../services/auth.service';
 import { findOneByEmail } from '../repositories/user.repository';
 import { IAuthPayload } from '../models/AuthPayload';
 
-export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
-  return authenticateLocal(
+export const authenticateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await authenticateLocal(
     async (email, password, done) => {
       try {
         const user = await findOneByEmail(email);
@@ -44,6 +44,6 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
   )(req, res);
 };
 
-export const refreshToken = (req: UserRequest, res: Response) => {
+export const refreshToken = (req: UserRequest, res: Response): void => {
   res.send('NOT IMPLEMENTED: refreshToken');
 };

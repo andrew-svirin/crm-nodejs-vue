@@ -5,7 +5,9 @@ export namespace Config {
     return process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : '.env';
   };
 
-  export const load = () => dotenv.config({path: envPath()});
+  export const load = (): void => {
+    dotenv.config({path: envPath()});
+  };
 }
 
 

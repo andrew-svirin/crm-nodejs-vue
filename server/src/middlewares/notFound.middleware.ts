@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export default (req: Request, res: Response, next: NextFunction): void => {
   /**
    * This middleware signals that route does not
    * response any data.

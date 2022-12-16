@@ -5,11 +5,11 @@ import { IAuthPayload } from '../models/AuthPayload';
 import assert from 'assert';
 import { authenticateJwt } from '../services/auth.service';
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   /**
    * Authenticate user and check authentication is correct.
    */
-  return authenticateJwt(
+  await authenticateJwt(
     async (jwt_payload: IAuthPayload, done) => {
       const user = await findOneById(jwt_payload.user.id);
 

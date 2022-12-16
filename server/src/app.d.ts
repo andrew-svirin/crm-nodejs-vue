@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import { IUser } from './models/User';
 import { Request as ExpressRequest } from 'express';
 import { Request as CoreRequest } from 'express-serve-static-core';
