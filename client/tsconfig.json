@@ -3,7 +3,6 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/**/*.tsx",
     "src/**/*.vue"
   ],
   "compilerOptions": {
@@ -15,7 +14,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "jsx": "preserve",
     "sourceMap": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
