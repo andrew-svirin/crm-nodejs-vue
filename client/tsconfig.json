@@ -7,16 +7,17 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "esnext",
+    "target": "ESNext",
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
     "composite": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
     "sourceMap": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "noImplicitAny": true,
     "lib": [
       "esnext",
       "dom"
