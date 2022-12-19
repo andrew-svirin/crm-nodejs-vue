@@ -20,13 +20,12 @@
 <script setup lang="ts">
 import LoginForm from '@/modules/login/components/LoginForm.vue';
 import type LoginFormType from '@/modules/login/components/LoginForm.d';
-import { useStore } from 'vuex';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 import type { Form } from '@/components/Form/Form';
 import { useRouter } from 'vue-router';
+import { authenticateUser } from '../services/LoginApiClient';
 
-const store = useStore();
 const router = useRouter();
 
 const loginFormRef: Ref<Form | undefined> = ref(undefined);
@@ -43,8 +42,7 @@ const onSubmit = async () => {
     return;
   }
 
-  await store.dispatch('login/LoginPage/authenticateUser', loginForm.value)
-    .then(async (response) => {
+  await authenticateUser(loginForm.value).then(async (response) => {
         localStorage.setItem('token', response.data.token);
 
         await router.push('/profile');

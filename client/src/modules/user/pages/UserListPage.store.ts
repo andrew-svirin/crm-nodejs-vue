@@ -1,6 +1,6 @@
 import type User from '@/modules/user/types/User';
 import { type Commit } from 'vuex';
-import ApiClient from '@/services/ApiClient';
+import { getUsers } from '@/modules/user/services/UserApiClient';
 
 const SET_USERS: string = 'SET_USERS';
 
@@ -19,7 +19,7 @@ export default {
 
   actions: {
     getUsers: async ({commit}: { commit: Commit }) => {
-      const {data} = await ApiClient.get('/user/get-users', {authorized: true});
+      const {data} = await getUsers();
 
       commit(SET_USERS, data);
     },
