@@ -1,10 +1,44 @@
-import axios from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig, type CreateAxiosDefaults } from 'axios';
 import type { RequestOptions, Response } from '@/services/ApiClient.d';
 
 export default class ApiClient {
   static readonly baseUrl: string = import.meta.env.VITE_API_BASE_URL;
 
-  static client (options?: RequestOptions) {
+  static instance?: AxiosInstance = undefined;
+
+  static client (): AxiosInstance {
+    if (!this.instance) {
+      const config = {
+        baseURL: this.baseUrl,
+        headers: {
+          'Content-Type': 'application/json',
+          common: {},
+        }
+      } as CreateAxiosDefaults;
+
+      this.instance = axios.create(config);
+    }
+
+    return this.instance;
+  }
+
+  static get (path: string, options?: RequestOptions): Promise<Response> {
+    return this.client().get(path, this.resolveRequestConfig(options));
+  }
+
+  static post (path: string, data: {}, options?: RequestOptions): Promise<Response> {
+    return this.client().post(path, data, this.resolveRequestConfig(options));
+  }
+
+  static put (path: string, data: {}, options?: RequestOptions): Promise<Response> {
+    return this.client().put(path, data, this.resolveRequestConfig(options));
+  }
+
+  static delete (path: string, options?: RequestOptions): Promise<Response> {
+    return this.client().delete(path, this.resolveRequestConfig(options));
+  }
+
+  static resolveRequestConfig (options?: RequestOptions): AxiosRequestConfig {
 
     const resolveAuthorization = (): string | undefined => {
       if (true === options?.authorized) {
@@ -20,31 +54,11 @@ export default class ApiClient {
       return undefined;
     };
 
-    const config = {
-      baseURL: this.baseUrl,
+    return {
+      params: options?.params,
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': resolveAuthorization(),
-        common: {},
       }
-    };
-
-    return axios.create(config);
-  }
-
-  static get (path: string, options?: RequestOptions): Promise<Response> {
-    return this.client(options).get(path, options);
-  }
-
-  static post (path: string, data: {}, options?: RequestOptions): Promise<Response> {
-    return this.client(options).post(path, data, options);
-  }
-
-  static put (path: string, data: {}, options?: RequestOptions): Promise<Response> {
-    return this.client(options).put(path, data, options);
-  }
-
-  static delete (path: string, options?: RequestOptions): Promise<Response> {
-    return this.client(options).delete(path, options);
+    } as AxiosRequestConfig;
   }
 }
