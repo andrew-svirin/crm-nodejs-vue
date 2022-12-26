@@ -1,13 +1,22 @@
-import { Response, UserRequest } from 'express';
-import { find } from '../repositories/user.repository';
+import { DataTableResponse, NextFunction, Request } from 'express';
+import { count, find } from '../repositories/user.repository';
 import { resolveTablePage } from '../services/db.service';
+import { IUser } from '../models/User';
 
-export const getUsers = async (req: UserRequest, res: Response): Promise<void> => {
+export const getUsers = async (req: Request, res: DataTableResponse, next: NextFunction): Promise<void> => {
   const {page = 1} = req.query;
+  const perPage = 10;
 
   const tablePage = resolveTablePage(page);
 
-  const users = await find(tablePage);
+  const [users, totalCount] = await Promise.all([
+    find(tablePage, perPage),
+    count(),
+  ]) as [IUser[], number];
 
-  res.json(users || []);
+  res.perPageItems = perPage;
+  res.pageItems = users;
+  res.totalItems = totalCount;
+
+  next();
 };

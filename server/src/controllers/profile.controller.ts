@@ -1,8 +1,8 @@
-import { Response, UserRequest } from 'express';
+import { DataItemResponse, NextFunction, Request } from 'express';
 import { findOneByUser } from '../repositories/profile.repository';
 
-export const getProfile = async (req: UserRequest, res: Response): Promise<void> => {
-  const profile = await findOneByUser(req.user?._id);
+export const getProfile = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+  res.item = await findOneByUser(req.user?._id);
 
-  res.json(profile);
+  next();
 };

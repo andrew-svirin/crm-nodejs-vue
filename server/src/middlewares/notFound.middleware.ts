@@ -8,5 +8,10 @@ export default (req: Request, res: Response, next: NextFunction): void => {
    * Put this middleware in the end of middleware
    * sequence.
    */
+
+  if (res.headersSent) {
+    return next();
+  }
+
   next(createError.NotFound());
 }

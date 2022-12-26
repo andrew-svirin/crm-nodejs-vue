@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, UserRequest } from 'express';
+import { DataItemResponse, NextFunction, Request } from 'express';
 import createError from 'http-errors';
 import assert from 'assert';
 import { createToken } from '../services/crypt.service';
@@ -6,7 +6,7 @@ import { authenticateLocal } from '../services/auth.service';
 import { findOneByEmail } from '../repositories/user.repository';
 import { IAuthPayload } from '../models/AuthPayload';
 
-export const authenticateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const authenticateUser = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   await authenticateLocal(
     async (email, password, done) => {
       try {
@@ -37,13 +37,17 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
 
           const token = createToken(payload, String(secret));
 
-          return res.json({token});
+          res.item = {token};
+
+          next();
         }
       );
     }
   )(req, res);
 };
 
-export const refreshToken = (req: UserRequest, res: Response): void => {
-  res.send('NOT IMPLEMENTED: refreshToken');
+export const refreshToken = (req: Request, res: DataItemResponse, next: NextFunction): void => {
+  res.item = {message: 'NOT IMPLEMENTED: refreshToken'};
+
+  next();
 };

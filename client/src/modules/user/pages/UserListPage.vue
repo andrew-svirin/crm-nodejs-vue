@@ -6,7 +6,7 @@
       </div>
     </v-card-title>
     <v-card-text>
-      <user-list />
+      <user-list ref="userListRef" v-model:page="page" />
     </v-card-text>
   </v-card>
 </template>
@@ -14,20 +14,20 @@
 <script setup lang="ts">
 import UserList from '@/modules/user/components/UserList.vue';
 import { useStore } from 'vuex';
-import { onMounted, ref, type Ref } from 'vue';
-import type User from '@/modules/user/types/User';
+import { ref, type Ref, watch } from 'vue';
+import type { ItemList } from '@/components/ItemList/ItemList.d';
 
 const store = useStore();
 
-let users: Ref<User[]> = ref([]);
+const userListRef: Ref<ItemList | undefined> = ref(undefined);
 
-onMounted(() => {
-  loadUsers();
-});
+let page: Ref<number | undefined> = ref(1);
 
-const loadUsers = async () => {
-  await store.dispatch('user/UserListPage/getUsers');
+const loadUsers = async (newPage: number) => {
+  await store.dispatch('user/UserListPage/fetchUsers', newPage);
 
-  Object.assign(users.value, store.state.user.UserListPage.users);
+  userListRef.value?.updateItemsPage(await store.getters['user/UserListPage/getTableBody']);
 };
+
+watch(page, async (newPage: number) => loadUsers(newPage), {immediate: true});
 </script>

@@ -15,4 +15,18 @@ module.exports = [
     email: 'test@email.test',
     ...createSaltAndHash('test_password')
   } as IUser,
+  ...(() => {
+    const users: IUser[] = [];
+
+    for (let i = 0; i < 100; i++) {
+      users.push({
+        _id: new ObjectId(),
+        username: `faked_${i}`,
+        email: `faked_${i}@email.test`,
+        ...createSaltAndHash(`faked_${i}_password`)
+      } as IUser);
+    }
+
+    return users;
+  })()
 ];

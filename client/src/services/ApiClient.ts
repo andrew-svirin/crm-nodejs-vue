@@ -33,10 +33,10 @@ export default class ApiClient {
   }
 
   static get (path: string, options?: RequestOptions): Promise<Response> {
-    return this.client(options).get(path);
+    return this.client(options).get(path, options);
   }
 
   static post (path: string, data: {}, options?: RequestOptions): Promise<Response> {
-    return this.client(options).post(path, data);
+    return this.client(options).post(path, data, options);
   }
 }
