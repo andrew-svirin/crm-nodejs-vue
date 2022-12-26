@@ -38,17 +38,14 @@ const onSubmit = async () => {
   const {valid = false} = await loginFormRef.value?.validate() || {};
 
   if (!valid) {
-    console.warn('Login validation error');
-    return;
+    return console.warn('Login validation error');
   }
 
-  await authenticateUser(loginForm.value).then(async (response) => {
-        localStorage.setItem('token', response.data.token);
+  const {data} = await authenticateUser(loginForm.value)
+    .catch((err) => console.warn(err.response?.data.message));
 
-        await router.push('/profile');
-      }
-    ).catch((err) => {
-      console.warn(err.response?.data.message);
-    });
+  localStorage.setItem('token', data.token);
+
+  await router.push('/profile');
 };
 </script>

@@ -1,6 +1,6 @@
 import type User from '@/modules/user/types/User';
 import { type Commit } from 'vuex';
-import { getUsers } from '@/modules/user/services/UserApiClient';
+import UserApiClient from '@/modules/user/services/UserApiClient';
 import type { ItemsPage } from '@/components/ItemList/ItemList';
 
 const SET_USERS: string = 'SET_USERS';
@@ -46,7 +46,7 @@ export default {
     fetchUsers: async ({commit}: { commit: Commit }, page: number) => {
       commit(SET_PAGE, page);
 
-      const response = await getUsers(page);
+      const response = await UserApiClient.getList(page);
 
       commit(SET_PER_PAGE, Number(response.headers['x-per-page-items']));
       commit(SET_TOTAL, Number(response.headers['x-total-items']));

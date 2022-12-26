@@ -4,6 +4,20 @@
     :body="tableBody"
     v-model:page="dataTablePage"
   >
+    <template #actions="{ row }">
+      <div class="float-right">
+        <v-btn
+          variant="plain"
+          icon="mdi-pencil-outline"
+          :to="{ name: 'user_edit', params: { id: row._id }, query: { username: row.username, email: row.email }}"
+        />
+        <v-btn
+          variant="plain"
+          icon="mdi-trash-can-outline"
+          :to="{ name: 'user_delete', params: { id: row._id }, query: { username: row.username }}"
+        />
+      </div>
+    </template>
   </data-table>
 </template>
 

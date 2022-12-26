@@ -1,5 +1,9 @@
 # crm-nodejs-vue
+CRM system allows to:  
+ - authorize users
+ - manage users
 
+### Tech stack
 Infrastructure: Docker  
 Client: Vue3 + TypeScript  
 Server: NodeJs  

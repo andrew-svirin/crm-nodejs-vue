@@ -39,4 +39,12 @@ export default class ApiClient {
   static post (path: string, data: {}, options?: RequestOptions): Promise<Response> {
     return this.client(options).post(path, data, options);
   }
+
+  static put (path: string, data: {}, options?: RequestOptions): Promise<Response> {
+    return this.client(options).put(path, data, options);
+  }
+
+  static delete (path: string, options?: RequestOptions): Promise<Response> {
+    return this.client(options).delete(path, options);
+  }
 }

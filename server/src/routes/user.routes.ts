@@ -5,6 +5,6 @@ import dataTableHandler from '../middlewares/dataTableHandler.middleware';
 
 const userRoutes = Router();
 
-userRoutes.get('/get-users', authenticated, controller.getUsers, dataTableHandler);
+userRoutes.get('/get-list', authenticated, controller.getList, dataTableHandler);
 
 export default userRoutes;

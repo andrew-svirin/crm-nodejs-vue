@@ -3,7 +3,7 @@ import { count, find } from '../repositories/user.repository';
 import { resolveTablePage } from '../services/db.service';
 import { IUser } from '../models/User';
 
-export const getUsers = async (req: Request, res: DataTableResponse, next: NextFunction): Promise<void> => {
+export const getList = async (req: Request, res: DataTableResponse, next: NextFunction): Promise<void> => {
   const {page = 1} = req.query;
   const perPage = 10;
 

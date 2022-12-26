@@ -1,10 +1,13 @@
 <template>
   <v-card class="mt-4 mb-4">
+
     <v-card-title>
-      <div>
-        <span>User List</span>
+      <div class="d-flex justify-space-between">
+        <h2>User List</h2>
+        <v-btn color="primary" to="/users/add">Add User</v-btn>
       </div>
     </v-card-title>
+
     <v-card-text>
       <user-list ref="userListRef" v-model:page="page" />
     </v-card-text>
