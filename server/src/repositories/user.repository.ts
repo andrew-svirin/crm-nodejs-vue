@@ -9,3 +9,5 @@ export const find = async (page: number, perPage: number = 10): Promise<IUser[]>
 
 export const count = async (): Promise<number> =>
   User.find().countDocuments({}).exec();
+
+export const create = async (user: IUser): Promise<IUser | null> => User.create(user);

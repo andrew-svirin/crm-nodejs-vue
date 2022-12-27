@@ -1,5 +1,5 @@
 import UserListPage from '@/modules/user/pages/UserListPage/UserListPage.vue';
-import AddUserPage from '@/modules/user/pages/AddUserPage/AddUserPage.vue';
+import AddUserPage from '@/modules/user/pages/AddUserPage.vue';
 import EditUserPage from '@/modules/user/pages/EditUserPage/EditUserPage.vue';
 import DeleteUserPage from '@/modules/user/pages/DeleteUserPage.vue';
 

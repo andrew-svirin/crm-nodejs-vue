@@ -1,7 +1,9 @@
-import { DataTableResponse, NextFunction, Request } from 'express';
-import { count, find } from '../repositories/user.repository';
+import { DataItemResponse, DataTableResponse, NextFunction, Request } from 'express';
+import * as UserRepository from '../repositories/user.repository';
 import { resolveTablePage } from '../services/db.service';
 import { IUser } from '../models/User';
+import { createSaltAndHash } from '../services/crypt.service';
+import { ObjectId } from 'mongodb';
 
 export const getList = async (req: Request, res: DataTableResponse, next: NextFunction): Promise<void> => {
   const {page = 1} = req.query;
@@ -10,13 +12,24 @@ export const getList = async (req: Request, res: DataTableResponse, next: NextFu
   const tablePage = resolveTablePage(page);
 
   const [users, totalCount] = await Promise.all([
-    find(tablePage, perPage),
-    count(),
+    UserRepository.find(tablePage, perPage),
+    UserRepository.count(),
   ]) as [IUser[], number];
 
   res.perPageItems = perPage;
   res.pageItems = users;
   res.totalItems = totalCount;
+
+  next();
+};
+
+export const create = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+  res.item = await UserRepository.create({
+    _id: new ObjectId(),
+    email: req.body.email,
+    username: req.body.username,
+    ...createSaltAndHash('test_password'),
+  } as IUser);
 
   next();
 };

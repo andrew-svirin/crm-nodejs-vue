@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
 
-        <h2>Add new user</h2>
+        <h2 class="mb-4">Add new user</h2>
 
         <user-form ref="userFormRef" v-model:form="userForm" />
 
@@ -24,14 +24,18 @@
 <script setup lang="ts">
 import UserForm from '@/modules/user/components/UserForm/UserForm.vue';
 import type UserFormType from '@/modules/user/components/UserForm/UserForm.d';
-import { useStore } from 'vuex';
 import { ref, type Ref } from 'vue';
 import type { Form } from '@/components/Form/Form.d';
+import UserApiClient from '@/modules/user/services/UserApiClient';
 
-const store = useStore();
+const uniqueId = new Date().valueOf();
 
 const userFormRef: Ref<Form | undefined> = ref(undefined);
-const userForm: Ref<UserFormType> = ref({});
+const userForm: Ref<UserFormType> = ref({
+  email: `some-test-email+${uniqueId}@test.test`,
+  username: `some-test-email+${uniqueId}`,
+  password: 'some-test-password',
+});
 
 const onSubmit = async () => {
   const {valid = false} = await userFormRef.value?.validate() || {};
@@ -40,12 +44,11 @@ const onSubmit = async () => {
     return console.warn('Fields validation error');
   }
 
-  await store.dispatch('user/AddUserPage/setUserForm', userForm.value);
+  await UserApiClient.create(userForm.value).then(async ({data: user}) => {
+      console.info(`User ${user._id} was added`);
 
-  const user = await store.dispatch('user/addUser', await store.getters['user/AddUserPage/getUser']);
-
-  console.info(`User ${user._id} was added`);
-
-  await userFormRef.value?.reset();
+      await userFormRef.value?.reset();
+    }
+  ).catch((err) => console.warn('Add user errors', err.response));
 };
 </script>
