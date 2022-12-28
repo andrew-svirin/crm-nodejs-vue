@@ -21,9 +21,11 @@ Server: NodeJs
 ### Development mode
 
 1. Run `make start` to run containers
-2. Run `make watch-server` to run server  
+2. Run `make load-fixtures`to load fixtures
+3. Run `make watch-server` to run server  
    ![img.png](/documentation/pics/start-server.png)
-3. Run `make serve-client` to run client  
+4. Run `make serve-client` to run client  
    ![img_1.png](/documentation/pics/start-client.png)
-4. Open browser in `http://localhost:8080`
+5. Open browser in `http://localhost:8080`
    ![app.gif](/documentation/pics/app.gif)
+6. Run `make test` to run tests
