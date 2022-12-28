@@ -26,3 +26,4 @@ Server: NodeJs
 3. Run `make serve-client` to run client  
    ![img_1.png](/documentation/pics/start-client.png)
 4. Open browser in `http://localhost:8080`
+   ![app.gif](/documentation/pics/app.gif)
