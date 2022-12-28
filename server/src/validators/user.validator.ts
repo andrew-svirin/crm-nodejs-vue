@@ -25,4 +25,11 @@ export const create = [
   validationErrorHandler,
 ];
 
+export const update = [
+  validateUsername,
+  validateEmail,
+  validatePassword.optional().bail(),
+  validationErrorHandler,
+];
+
 

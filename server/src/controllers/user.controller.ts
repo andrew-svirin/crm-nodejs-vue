@@ -4,6 +4,7 @@ import { resolveTablePage } from '../services/db.service';
 import { IUser } from '../models/User';
 import { createSaltAndHash } from '../services/crypt.service';
 import { ObjectId } from 'mongodb';
+import createError from 'http-errors';
 
 export const get = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   res.item = await UserRepository.findOneById(req.params.id);
@@ -36,6 +37,22 @@ export const create = async (req: Request, res: DataItemResponse, next: NextFunc
     username: req.body.username,
     ...createSaltAndHash(req.body.password),
   } as IUser);
+
+  next();
+};
+
+export const update = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+  const user = await UserRepository.findOneById(req.params.id);
+
+  if(!user) return next(createError.UnprocessableEntity('User does not exists'))
+
+  user.set({
+    email: req.body.email,
+    username: req.body.username,
+    ...(req.body.password ? createSaltAndHash(req.body.password) : {}),
+  });
+
+  res.item = await user.save();
 
   next();
 };

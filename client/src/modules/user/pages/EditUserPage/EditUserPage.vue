@@ -30,6 +30,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import type { Form } from '@/components/Form/Form';
 import type User from '@/modules/user/types/User.d';
+import UserApiClient from '@/modules/user/services/UserApiClient';
 
 const store = useStore();
 const router = useRouter();
@@ -39,16 +40,21 @@ const userFormRef: Ref<Form | undefined> = ref(undefined);
 const userForm: Ref<UserFormType> = ref({});
 
 onMounted(async () => {
-  user.value = {
-    _id: String(router.currentRoute.value.params?.id),
-    username: String(router.currentRoute.value.query?.username),
-    email: String(router.currentRoute.value.query?.email),
-  };
+  await loadUser(String(router.currentRoute.value.params?.id));
 
-  await store.dispatch('user/EditUserPage/setUser', user.value);
-
-  Object.assign(userForm.value, store.state.user.EditUserPage.userForm);
+  setupUserForm();
 });
+
+const loadUser = async (id: string) => await store.dispatch('user/EditUserPage/fetchUser', id);
+
+const setupUserForm = () => {
+  const user = store.state.user.EditUserPage.user;
+
+  userForm.value = {
+    email: user.email,
+    username: user.username,
+  };
+};
 
 const onSubmit = async () => {
   const {valid = false} = await userFormRef.value?.validate() || {};
@@ -57,13 +63,8 @@ const onSubmit = async () => {
     return console.warn('Fields validation error');
   }
 
-  await store.dispatch('user/EditUserPage/setUserForm', userForm.value);
-
-  user.value = await store.dispatch('user/editUser', {
-    id: user.value?._id,
-    user: await store.getters['user/EditUserPage/getUser'],
-  });
-
-  console.info(`User ${user.value?._id} was edited`);
+  await UserApiClient.update(String(router.currentRoute.value.params?.id), userForm.value)
+    .then(({data: user}) => console.info(`User ${user.value?._id} was edited`))
+    .catch((err) => console.warn('Edit user errors', err.response));
 };
 </script>

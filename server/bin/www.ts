@@ -102,3 +102,8 @@ process.on('SIGINT', async () => {
 
   process.exit(0);
 });
+
+process.on('uncaughtException', (err, origin) => {
+  console.log('Caught exception: ' + err.message);
+  console.log('Caught stack: ' + err.stack);
+});

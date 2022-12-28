@@ -9,7 +9,7 @@
         <v-btn
           variant="plain"
           icon="mdi-pencil-outline"
-          :to="{ name: 'user_edit', params: { id: row._id }, query: { username: row.username, email: row.email }}"
+          :to="{ name: 'user_edit', params: { id: row._id }}"
         />
         <v-btn
           variant="plain"

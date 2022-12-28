@@ -28,11 +28,15 @@ const router = useRouter();
 
 let user: Ref<User> = ref({});
 
-onMounted(() => {
+const setupUser = () => {
   user.value = {
     _id: String(router.currentRoute.value.params.id),
     username: String(router.currentRoute.value.query.username),
   };
+};
+
+onMounted(() => {
+  setupUser();
 });
 
 const onSubmit = async () => {

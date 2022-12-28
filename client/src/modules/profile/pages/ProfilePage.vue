@@ -26,7 +26,7 @@ onMounted(() => {
 });
 
 const loadProfile = async () => {
-  await store.dispatch('profile/ProfilePage/getProfile');
+  await store.dispatch('profile/ProfilePage/fetchProfile');
 
   Object.assign(profile.value, store.state.profile.ProfilePage.profile);
 };

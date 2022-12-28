@@ -1,39 +1,27 @@
 import type { Commit } from 'vuex';
 import type User from '@/modules/user/types/User.d';
-import type UserForm from '@/modules/user/components/UserForm/UserForm.d';
+import UserApiClient from '@/modules/user/services/UserApiClient';
 
-const SET_USER_FORM: string = 'SET_USER_FORM';
+const SET_USER: string = 'SET_USER';
 
 export default {
   namespaced: true,
 
   state: {
-    userForm: {} as UserForm,
+    user: {} as User,
   },
 
   mutations: {
-    SET_USER_FORM: (state: any, userForm: UserForm): void => {
-      state.userForm = userForm;
-    },
-  },
-
-  getters: {
-    getUser: async (state: any) => {
-      const {dir, url} = state.userForm;
-
-      return {dir, url} as User;
+    SET_USER: (state: any, user: User): void => {
+      state.user = user;
     },
   },
 
   actions: {
-    setUser: ({commit}: { commit: Commit }, user: User) => {
-      const {dir, url} = user;
+    fetchUser: async ({commit}: { commit: Commit }, id: string) => {
+      const {data} = await UserApiClient.get(id);
 
-      commit(SET_USER_FORM, {dir, url} as UserForm);
-    },
-
-    setUserForm: ({commit}: { commit: Commit }, userForm: UserForm) => {
-      commit(SET_USER_FORM, userForm);
+      commit(SET_USER, data);
     },
   }
 };

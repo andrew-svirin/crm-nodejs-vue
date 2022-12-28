@@ -13,4 +13,6 @@ userRoutes.get('/get-list', authenticated, controller.getList, dataTableHandler)
 
 userRoutes.post('/create', authenticated, ...validator.create, controller.create, dataItemHandler);
 
+userRoutes.put('/:id/update', authenticated, ...validator.update, controller.update, dataItemHandler);
+
 export default userRoutes;

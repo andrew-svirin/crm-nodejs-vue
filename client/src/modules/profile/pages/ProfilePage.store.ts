@@ -1,6 +1,6 @@
 import type { Commit } from 'vuex';
 import type Profile from '@/modules/profile/types/Profile';
-import * as ProfileApiClient from '@/modules/profile/services/ProfileApiClient';
+import ProfileApiClient from '@/modules/profile/services/ProfileApiClient';
 
 const SET_PROFILE: string = 'SET_PROFILE';
 
@@ -18,7 +18,7 @@ export default {
   },
 
   actions: {
-    getProfile: async ({commit}: { commit: Commit }) => {
+    fetchProfile: async ({commit}: { commit: Commit }) => {
       const {data} = await ProfileApiClient.getCurrent();
 
       commit(SET_PROFILE, data);

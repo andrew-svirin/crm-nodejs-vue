@@ -57,11 +57,31 @@ describe('User routes', () => {
     const authorize = await LoginUtil.authorizeUser(user);
 
     await server
-      .post(`/user/create`)
+      .post('/user/create')
       .set('Authorization', `Bearer ${authorize.token}`)
       .send({username: 'fake_1', email: 'fake_1@test.test', password: 'fake_password'})
       .expect('Content-Type', /json/)
       .expect(200)
       .expect(({body}) => expect(body).to.be.jsonSchema(userSchema));
+  });
+
+  it('Return user after update', async () => {
+    await UserUtil.deleteAll();
+
+    const [user, fakeUser] = await Promise.all([
+      UserUtil.create(),
+      UserUtil.create({username: 'fake_1', email: 'fake_1@test.test'}),
+    ]);
+
+    const authorize = await LoginUtil.authorizeUser(user);
+
+    await server
+      .put(`/user/${fakeUser._id}/update`)
+      .set('Authorization', `Bearer ${authorize.token}`)
+      .send({username: 'fake_2', email: 'fake_2@test.test', password: 'fake_password_2'})
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect(({body}) => expect(body).to.be.jsonSchema(userSchema))
+      .expect(({body}) => expect(body).has.property('username', 'fake_2'));
   });
 });
