@@ -4,3 +4,7 @@ export interface IAuthPayload {
     email: string;
   };
 }
+
+export interface IAuthToken {
+  token: string;
+}

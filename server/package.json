@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "PORT=9000 npx ts-node ./bin/www.ts",
-    "watch": "PORT=9000 DEBUG=www npx nodemon --ext ts --ignore node_modules/ --delay 2 --exec 'node --inspect=0.0.0.0:9229 --require ts-node/register bin/www.ts'",
+    "watch": "PORT=9000 DEBUG=www npx nodemon --ext ts --ignore node_modules/ --exec 'node --inspect=0.0.0.0:9229 --require ts-node/register bin/www.ts'",
     "load-fixtures": "npx ts-node ./bin/fixtures.ts",
     "test": "NODE_ENV=test npx ts-mocha --timeout 1000 test/**/*.spec.ts"
   },

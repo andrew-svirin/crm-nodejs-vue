@@ -5,6 +5,6 @@ import dataItemHandler from '../middlewares/dataItemHandler.middleware';
 
 const profileRoutes = Router();
 
-profileRoutes.get('/get-profile', authenticated, controller.getProfile, dataItemHandler);
+profileRoutes.get('/get-current', authenticated, controller.getCurrent, dataItemHandler);
 
 export default profileRoutes;

@@ -1,6 +1,8 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy, VerifyFunction } from 'passport-local';
 import { ExtractJwt, Strategy as JwtStrategy, VerifyCallback } from 'passport-jwt';
+import { IAuthPayload } from '../models/Auth';
+import { IUser } from '../models/User';
 
 const tokenSecret = (): string => String(process.env.TOKEN_SECRET);
 
@@ -23,3 +25,7 @@ export const authenticateLocal = (verify: VerifyFunction, callback: (...args: an
     {session: false},
     (...args) => callback(...args, tokenSecret())
   );
+
+export const createPayload = (user: IUser): IAuthPayload => ({
+  user: {id: user._id, email: user.email},
+});

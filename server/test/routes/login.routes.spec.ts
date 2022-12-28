@@ -1,36 +1,27 @@
 import { describe, it } from 'mocha';
-import supertest from 'supertest';
 import { expect } from 'chai';
 import { ServerUtil } from '../utils/server.util';
 import { UserUtil } from '../utils/user.util';
-import app from '../../src/app';
 
-const server = supertest(app);
+const server = ServerUtil.create();
 
 describe('Login routes', () => {
-  before(async () => {
-    await ServerUtil.setup();
-  });
-  after(async () => {
-    await ServerUtil.close();
-  });
+  before(async () => await ServerUtil.setup());
+  after(async () => await ServerUtil.close());
 
   it('Return token on correct credentials', async () => {
 
     await UserUtil.deleteAll();
 
-    await UserUtil.create();
+    const user = await UserUtil.create();
 
-    server
+    await server
       .post('/login/authenticate-user')
-      .send({email: 'admin@email.test', password: 'admin_password'})
+      .send({email: user.email, password: 'admin_password'})
       .expect('Content-Type', /json/)
       .expect(200)
       .expect((res) => {
-        expect(res.body).has.property('token');
-      })
-      .end(function (err, res) {
-        if (err) throw err;
+        expect(res.body).that.includes.all.keys(['token']);
       });
   });
 });

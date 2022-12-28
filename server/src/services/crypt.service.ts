@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { IAuthPayload } from '../models/AuthPayload';
+import { IAuthPayload, IAuthToken } from '../models/Auth';
 
 export const createSaltAndHash = (password: string): { salt: string, hash: string } => {
   const salt = createSalt();
@@ -16,8 +16,10 @@ export const createHash = (password: string, salt: string): string => crypto
 
 export const createSalt = (): string => crypto.randomBytes(16).toString('hex');
 
-export const createToken = (payload: IAuthPayload, tokenSecret: string): string => jwt.sign(
-  payload,
-  tokenSecret,
-  {expiresIn: '2h'}
-);
+export const createToken = (payload: IAuthPayload, tokenSecret: string): IAuthToken => ({
+  token: jwt.sign(
+    payload,
+    tokenSecret,
+    {expiresIn: '2h'}
+  )
+});

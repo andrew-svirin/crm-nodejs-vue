@@ -2,9 +2,8 @@ import { DataItemResponse, NextFunction, Request } from 'express';
 import createError from 'http-errors';
 import assert from 'assert';
 import { createToken } from '../services/crypt.service';
-import { authenticateLocal } from '../services/auth.service';
+import { authenticateLocal, createPayload } from '../services/auth.service';
 import { findOneByEmail } from '../repositories/user.repository';
-import { IAuthPayload } from '../models/AuthPayload';
 
 export const authenticateUser = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   await authenticateLocal(
@@ -31,13 +30,7 @@ export const authenticateUser = async (req: Request, res: DataItemResponse, next
       return req.login(user, {session: false}, async (error) => {
           if (error) return next(error);
 
-          const payload: IAuthPayload = {
-            user: {id: user._id, email: user.email},
-          };
-
-          const token = createToken(payload, String(secret));
-
-          res.item = {token};
+          res.item = createToken(createPayload(user), String(secret));
 
           next();
         }

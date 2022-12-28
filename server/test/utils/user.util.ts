@@ -1,10 +1,11 @@
 import User, { IUser } from '../../src/models/User';
 import { ObjectId } from 'mongodb';
 import { createSaltAndHash } from '../../src/services/crypt.service';
+import { ICredentials } from './utils';
 
 export namespace UserUtil {
 
-  export const create = async (model: {} = {}): Promise<IUser> => {
+  export const create = async (model: { [key: keyof IUser]: any } = {}): Promise<IUser & ICredentials> => {
     const defaultModel = {
       _id: new ObjectId(),
       username: 'admin',
@@ -19,7 +20,5 @@ export namespace UserUtil {
     return user;
   };
 
-  export const deleteAll = async (filter: {} = {}): Promise<void> => {
-    User.deleteMany(filter);
-  };
+  export const deleteAll = async (filter: {} = {}): Promise<void> => User.deleteMany(filter);
 }

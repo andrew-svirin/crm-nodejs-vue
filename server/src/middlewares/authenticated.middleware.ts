@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import { findOneById } from '../repositories/user.repository';
-import { IAuthPayload } from '../models/AuthPayload';
+import { IAuthPayload } from '../models/Auth';
 import assert from 'assert';
 import { authenticateJwt } from '../services/auth.service';
 
