@@ -1,9 +1,13 @@
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiJsonSchema from 'chai-json-schema';
 import { ServerUtil } from '../utils/server.util';
 import { UserUtil } from '../utils/user.util';
 import { LoginUtil } from '../utils/login.util';
 import { ProfileUtil } from '../utils/profile.util';
+import { profileSchema } from '../schemas/profile.schema';
+
+chai.use(chaiJsonSchema);
 
 const server = ServerUtil.create();
 
@@ -12,10 +16,10 @@ describe('Profile routes', () => {
   after(async () => await ServerUtil.close());
 
   it('Return profile for current account', async () => {
-
-    await ProfileUtil.deleteAll();
-
-    await UserUtil.deleteAll();
+    await Promise.all([
+      ProfileUtil.deleteAll(),
+      UserUtil.deleteAll(),
+    ]);
 
     const user = await UserUtil.create();
 
@@ -28,8 +32,6 @@ describe('Profile routes', () => {
       .set('Authorization', `Bearer ${authorize.token}`)
       .expect('Content-Type', /json/)
       .expect(200)
-      .expect((res) => {
-        expect(res.body).that.includes.all.keys(['_id', 'user', 'firstName', 'lastName', 'birthday']);
-      });
+      .expect(({body}) => expect(body).to.be.jsonSchema(profileSchema));
   });
 });

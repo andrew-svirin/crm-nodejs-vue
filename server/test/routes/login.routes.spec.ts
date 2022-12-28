@@ -1,7 +1,11 @@
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import chaiJsonSchema from 'chai-json-schema';
 import { ServerUtil } from '../utils/server.util';
 import { UserUtil } from '../utils/user.util';
+import { authSchema } from '../schemas/login.schema';
+
+chai.use(chaiJsonSchema);
 
 const server = ServerUtil.create();
 
@@ -10,7 +14,6 @@ describe('Login routes', () => {
   after(async () => await ServerUtil.close());
 
   it('Return token on correct credentials', async () => {
-
     await UserUtil.deleteAll();
 
     const user = await UserUtil.create();
@@ -20,8 +23,6 @@ describe('Login routes', () => {
       .send({email: user.email, password: 'admin_password'})
       .expect('Content-Type', /json/)
       .expect(200)
-      .expect((res) => {
-        expect(res.body).that.includes.all.keys(['token']);
-      });
+      .expect(({body}) => expect(body).to.be.jsonSchema(authSchema));
   });
 });

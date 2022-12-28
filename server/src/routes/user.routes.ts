@@ -7,6 +7,8 @@ import dataItemHandler from '../middlewares/dataItemHandler.middleware';
 
 const userRoutes = Router();
 
+userRoutes.get('/:id/get', authenticated, controller.get, dataItemHandler);
+
 userRoutes.get('/get-list', authenticated, controller.getList, dataTableHandler);
 
 userRoutes.post('/create', authenticated, ...validator.create, controller.create, dataItemHandler);

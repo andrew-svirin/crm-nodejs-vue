@@ -22,7 +22,7 @@ Server: NodeJs
 
 1. Run `make start` to run containers
 2. Run `make watch-server` to run server  
-   ![img.png](/doc/pics/start-server.png)
+   ![img.png](/documentation/pics/start-server.png)
 3. Run `make serve-client` to run client  
-   ![img_1.png](/doc/pics/start-client.png)
+   ![img_1.png](/documentation/pics/start-client.png)
 4. Open browser in `http://localhost:8080`

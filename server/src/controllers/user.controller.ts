@@ -5,6 +5,12 @@ import { IUser } from '../models/User';
 import { createSaltAndHash } from '../services/crypt.service';
 import { ObjectId } from 'mongodb';
 
+export const get = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+  res.item = await UserRepository.findOneById(req.params.id);
+
+  next();
+};
+
 export const getList = async (req: Request, res: DataTableResponse, next: NextFunction): Promise<void> => {
   const {page = 1} = req.query;
   const perPage = 10;
@@ -28,7 +34,7 @@ export const create = async (req: Request, res: DataItemResponse, next: NextFunc
     _id: new ObjectId(),
     email: req.body.email,
     username: req.body.username,
-    ...createSaltAndHash('test_password'),
+    ...createSaltAndHash(req.body.password),
   } as IUser);
 
   next();
