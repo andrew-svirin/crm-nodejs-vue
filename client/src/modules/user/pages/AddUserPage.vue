@@ -49,6 +49,6 @@ const onSubmit = async () => {
 
       await userFormRef.value?.reset();
     }
-  ).catch((err) => console.warn('Add user errors', err.response));
+  ).catch(err => console.warn('Add user errors', err.response));
 };
 </script>

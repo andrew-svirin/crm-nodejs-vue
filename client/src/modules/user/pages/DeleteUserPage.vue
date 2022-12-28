@@ -20,10 +20,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { onMounted, ref, type Ref } from 'vue';
-import { useStore } from 'vuex';
 import type User from '@/modules/user/types/User.d';
+import UserApiClient from '@/modules/user/services/UserApiClient';
 
-const store = useStore();
 const router = useRouter();
 
 let user: Ref<User> = ref({});
@@ -40,9 +39,9 @@ onMounted(() => {
 });
 
 const onSubmit = async () => {
-  await store.dispatch('user/deleteUser', user.value?._id);
-
-  console.info(`User ${user.value?._id} was deleted`);
+  await UserApiClient.delete(String(user.value?._id))
+    .then(() => console.info(`User ${user.value?._id} was deleted`))
+    .catch(err => console.warn('Delete user errors', err.response));
 
   await router.push('/users');
 };

@@ -64,7 +64,7 @@ const onSubmit = async () => {
   }
 
   await UserApiClient.update(String(router.currentRoute.value.params?.id), userForm.value)
-    .then(({data: user}) => console.info(`User ${user.value?._id} was edited`))
+    .then(({data: user}) => console.info(`User ${user._id} was edited`))
     .catch((err) => console.warn('Edit user errors', err.response));
 };
 </script>

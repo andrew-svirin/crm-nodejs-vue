@@ -1,4 +1,4 @@
-import { DataItemResponse, DataTableResponse, NextFunction, Request } from 'express';
+import { DataItemResponse, DataTableResponse, NextFunction, Request, Response } from 'express';
 import * as UserRepository from '../repositories/user.repository';
 import { resolveTablePage } from '../services/db.service';
 import { IUser } from '../models/User';
@@ -6,7 +6,7 @@ import { createSaltAndHash } from '../services/crypt.service';
 import { ObjectId } from 'mongodb';
 import createError from 'http-errors';
 
-export const get = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+export const getItem = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   res.item = await UserRepository.findOneById(req.params.id);
 
   next();
@@ -30,7 +30,7 @@ export const getList = async (req: Request, res: DataTableResponse, next: NextFu
   next();
 };
 
-export const create = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+export const createItem = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   res.item = await UserRepository.create({
     _id: new ObjectId(),
     email: req.body.email,
@@ -41,10 +41,10 @@ export const create = async (req: Request, res: DataItemResponse, next: NextFunc
   next();
 };
 
-export const update = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
+export const updateItem = async (req: Request, res: DataItemResponse, next: NextFunction): Promise<void> => {
   const user = await UserRepository.findOneById(req.params.id);
 
-  if(!user) return next(createError.UnprocessableEntity('User does not exists'))
+  if (!user) return next(createError.UnprocessableEntity('User does not exists'));
 
   user.set({
     email: req.body.email,
@@ -53,6 +53,16 @@ export const update = async (req: Request, res: DataItemResponse, next: NextFunc
   });
 
   res.item = await user.save();
+
+  next();
+};
+
+export const deleteItem = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const user = await UserRepository.findOneById(req.params.id);
+
+  if (!user) return next(createError.UnprocessableEntity('User does not exists'));
+
+  await user.delete();
 
   next();
 };

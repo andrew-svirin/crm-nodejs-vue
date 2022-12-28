@@ -84,4 +84,20 @@ describe('User routes', () => {
       .expect(({body}) => expect(body).to.be.jsonSchema(userSchema))
       .expect(({body}) => expect(body).has.property('username', 'fake_2'));
   });
+
+  it('Return status after delete', async () => {
+    await UserUtil.deleteAll();
+
+    const [user, fakeUser] = await Promise.all([
+      UserUtil.create(),
+      UserUtil.create({username: 'fake_1', email: 'fake_1@test.test'}),
+    ]);
+
+    const authorize = await LoginUtil.authorizeUser(user);
+
+    await server
+      .delete(`/user/${fakeUser._id}/delete`)
+      .set('Authorization', `Bearer ${authorize.token}`)
+      .expect(204);
+  });
 });
