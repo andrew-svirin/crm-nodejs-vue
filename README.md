@@ -3,13 +3,14 @@
 CRM system allows to:
 
 - authorize users
+- view profile
 - manage users
 
 ### Tech stack
 
 Infrastructure: Docker  
-Client: Vue3 + TypeScript  
-Server: NodeJs
+Client: Js + Vue3 + TypeScript  
+Server: Js + NodeJs + ExpressJs + TypeScript
 
 ### Debug
 
