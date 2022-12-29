@@ -10,7 +10,7 @@ CRM system allows to:
 
 Infrastructure: Docker  
 Client: Js + Vue3 + TypeScript  
-Server: Js + NodeJs + ExpressJs + TypeScript
+Server: Js + NodeJs + ExpressJs + TypeScript + MongoDB
 
 ### Debug
 
