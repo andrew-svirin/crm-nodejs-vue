@@ -50,7 +50,7 @@ export const updateItem = async (req: Request, res: DataItemResponse, next: Next
     email: req.body.email,
     username: req.body.username,
     ...(req.body.password ? createSaltAndHash(req.body.password) : {}),
-  });
+  } as IUser);
 
   res.item = await user.save();
 

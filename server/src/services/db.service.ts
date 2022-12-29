@@ -9,9 +9,7 @@ export namespace Db {
     await mongoose.connect(dbUri()).catch(err => console.log(err));
   };
 
-  export const disconnect = async (): Promise<void> => {
-    await mongoose.connection.close();
-  };
+  export const disconnect = async (): Promise<void> => await mongoose.connection.close();
 }
 
 export const resolveTablePage = (page: any): number => {
